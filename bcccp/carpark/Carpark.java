@@ -6,8 +6,6 @@ import bcccp.tickets.adhoc.IAdhocTicket;
 import bcccp.tickets.adhoc.IAdhocTicketDAO;
 import bcccp.tickets.season.ISeasonTicket;
 import bcccp.tickets.season.ISeasonTicketDAO;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Carpark implements ICarpark {
 	
@@ -57,25 +55,7 @@ public class Carpark implements ICarpark {
 
 	@Override
 	public boolean isFull() {
-            Date date = new Date();
-            Calendar c = Calendar.getInstance();
-            c.setTime(date);
-            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK); //returns day of week as int, 1 is Sunday and 7 is Saturday
-            if(dayOfWeek != 1 || dayOfWeek != 7){ 
-            //if it is not a weekend            
-		if(numberOfCarsParked >= (capacity*.9))
-                    return true;
-                else
-		return false;
-            }
-            if(dayOfWeek == 1 || dayOfWeek == 7){
-            //if it is a weekend
-                if(numberOfCarsParked >= capacity)
-                    return true;
-                else
-                    return false;
-            }
-            else
+		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -91,7 +71,8 @@ public class Carpark implements ICarpark {
 
 	@Override
 	public void recordAdhocTicketEntry() {
-            numberOfCarsParked++;
+		// TODO Auto-generated method stub
+		
 	}
 
 
@@ -114,7 +95,7 @@ public class Carpark implements ICarpark {
 
 	@Override
 	public void recordAdhocTicketExit() {
-		numberOfCarsParked--;
+		// TODO Auto-generated method stub
 		
 	}
 
