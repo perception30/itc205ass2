@@ -1,5 +1,7 @@
 package bcccp.tickets.adhoc;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class AdhocTicket implements IAdhocTicket {
@@ -11,32 +13,55 @@ public class AdhocTicket implements IAdhocTicket {
 	private long exitDateTime;
 	private float charge;
 	private String barcode;
+        private Date date;
 
 	
 	
 	public AdhocTicket(String carparkId, int ticketNo, String barcode) {
-		//TDO Implement constructor
+            this.carparkId = carparkId;
+            this.ticketNo = ticketNo;
+            this.barcode = barcode;
 	}
+        
+        public AdhocTicket(String carparkId){
+            this.carparkId = carparkId;
+            this.ticketNo = createTicketNumber();
+            this.barcode = createBarcode(ticketNo);
+        }
+        
+        
+        public String createBarcode(int ticketNumber){
+            Date date = new Date();
+            String oldstring = date.toString();
+            LocalDateTime datetime = LocalDateTime.parse(oldstring, DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy"));
+            String barcode = ticketNumber + datetime.format(DateTimeFormatter.ofPattern("ddMMyyyyHHmmss"));
+            return barcode;
+        }
+        
+        public int createTicketNumber(){
+            ticketNo++;
+            return ticketNo;
+        }
+                
 
 
 	@Override
 	public int getTicketNo() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.ticketNo;
 	}
 
 
 	@Override
 	public String getBarcode() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.barcode;
 	}
 
 
 	@Override
 	public String getCarparkId() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.carparkId;
 	}
 
 
@@ -49,8 +74,8 @@ public class AdhocTicket implements IAdhocTicket {
 
 	@Override
 	public long getEntryDateTime() {
-		// TODO Auto-generated method stub
-		return 0;
+            long currentTimeMillis = System.currentTimeMillis();
+            return currentTimeMillis;
 	}
 
 
