@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
 public class PaystationUI extends JFrame implements IPaystationUI {
@@ -94,6 +95,7 @@ public class PaystationUI extends JFrame implements IPaystationUI {
 		panel_1.setLayout(null);
 		
 		barcodeTextField = new JTextField();
+                barcodeTextField.setText("");
 		barcodeTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		barcodeTextField.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		barcodeTextField.setBounds(10, 21, 285, 53);
@@ -123,7 +125,7 @@ public class PaystationUI extends JFrame implements IPaystationUI {
 		ticketPrinterTextArea.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		ticketPrinterTextArea.setEditable(false);
 		ticketPrinterTextArea.setBounds(10, 22, 295, 230);
-		panel_2.add(ticketPrinterTextArea);
+                panel_2.add(ticketPrinterTextArea);
 		
 		JButton btnNewButton_1 = new JButton("Take Ticket");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -153,8 +155,12 @@ public class PaystationUI extends JFrame implements IPaystationUI {
 	
 	
 	private void ticketInserted() {
-		String ticketStr = barcodeTextField.getText();
-		controller.ticketInserted(ticketStr);	
+            if(!barcodeTextField.getText().equalsIgnoreCase("")){
+                //String ticketStr = barcodeTextField.getText().toString();
+                controller.ticketInserted(barcodeTextField.getText());
+                
+                }
+                	
 	}
 	
 	

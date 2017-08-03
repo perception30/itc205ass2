@@ -96,8 +96,9 @@ public class CarSensor extends JFrame implements ICarSensor {
 
 	@Override
 	public boolean carIsDetected() {
-		return carDetected;
+            return carDetected;
 	}
+        
 	
 	
 

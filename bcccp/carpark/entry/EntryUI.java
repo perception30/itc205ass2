@@ -33,7 +33,6 @@ public class EntryUI extends JFrame implements IEntryUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-            
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -52,8 +51,7 @@ public class EntryUI extends JFrame implements IEntryUI {
 	 * Create the frame.
 	 */
 	public EntryUI(int x, int y) {
-        
-                setTitle("Entry Pillar UI");
+		setTitle("Entry Pillar UI");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(x, y, 340, 710);
 		contentPane = new JPanel();
@@ -168,14 +166,15 @@ public class EntryUI extends JFrame implements IEntryUI {
 	
 	private void pushButton() {
 		log("pushButton : calling button pushed");
-                controller.buttonPushed();	
+		controller.buttonPushed();	
 	}
 
 	
 	
 	private void insertTicket() {
 		String ticketStr = seasonTicketTextField.getText();
-		controller.ticketInserted(ticketStr);	
+                System.out.println("the season ticket number is " + ticketStr);
+                controller.ticketInserted(ticketStr);	
 	}
 	
 	

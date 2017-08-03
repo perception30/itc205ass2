@@ -1,5 +1,8 @@
 package bcccp.tickets.adhoc;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AdhocTicket implements IAdhocTicket {
@@ -11,7 +14,9 @@ public class AdhocTicket implements IAdhocTicket {
 	private long exitDateTime;
 	private float charge;
 	private String barcode;
-        private Date date;
+        
+        private boolean isCurrent;
+        private boolean hasPaid;
 
 	
 	
@@ -19,26 +24,31 @@ public class AdhocTicket implements IAdhocTicket {
             this.carparkId = carparkId;
             this.ticketNo = ticketNo;
             this.barcode = barcode;
+            this.isCurrent = true; //is this doing anything??
+            this.hasPaid = false;
+	}
+        
+        public AdhocTicket(String carparkId, int ticketNo) {
+            this.carparkId = carparkId;
+            this.ticketNo = ticketNo;
+            this.barcode = setEntryDateTime()+ticketNo+"A";
 	}
 
 
 	@Override
 	public int getTicketNo() {
-		// TODO Auto-generated method stub
-		return this.ticketNo;
+            return this.ticketNo;
 	}
 
 
 	@Override
 	public String getBarcode() {
-		// TODO Auto-generated method stub
-		return this.barcode;
+            return this.barcode;
 	}
 
 
 	@Override
 	public String getCarparkId() {
-		// TODO Auto-generated method stub
 		return this.carparkId;
 	}
 
@@ -52,21 +62,32 @@ public class AdhocTicket implements IAdhocTicket {
 
 	@Override
 	public long getEntryDateTime() {
-            long currentTimeMillis = System.currentTimeMillis();
-            return currentTimeMillis;
+            
+            return entryDateTime;
 	}
+        
+        private long setEntryDateTime(){
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
+            long strDate = Long.parseLong(sdf.format(cal.getTime()));
+            return strDate;
+        }
 
 
 	@Override
 	public boolean isCurrent() {
-		// TODO Auto-generated method stub
-		return false;
+            return this.isCurrent;
 	}
 
 
 	@Override
 	public void pay(long dateTime, float charge) {
 		// TODO Auto-generated method stub
+		
+	}
+        @Override
+        public void pay() {
+		this.hasPaid = true;
 		
 	}
 
@@ -80,15 +101,27 @@ public class AdhocTicket implements IAdhocTicket {
 
 	@Override
 	public boolean isPaid() {
-		// TODO Auto-generated method stub
-		return false;
+                return this.hasPaid;
+                
 	}
 
 
 	@Override
 	public float getCharge() {
 		// TODO Auto-generated method stub
-		return 0;
+                float shortStayCharge = 5;
+                float longStayCharge = 5000;
+                if(setEntryDateTime() - this.getEntryDateTime() < 1000){
+                    System.out.println(setEntryDateTime() + " - " + this.getEntryDateTime() +" = " + (setEntryDateTime() - this.getEntryDateTime()));
+                    System.out.println("charged custmer LONG stay amount");
+                    return longStayCharge;
+                }
+                else{
+                    System.out.println(setEntryDateTime() + " - " + this.getEntryDateTime() +" = " + (setEntryDateTime() - this.getEntryDateTime()));
+                    System.out.println("charged custmer SHORT stay amount");
+                    return shortStayCharge;
+                }
+	
 	}
 
 

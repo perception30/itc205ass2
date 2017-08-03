@@ -17,9 +17,9 @@ public class ExitController
 	private IExitUI ui;
 	
 	private ICarpark carpark;
-	private IAdhocTicket  adhocTicket = null;
+	private IAdhocTicket  adhocTicket;
 	private long exitTime;
-	private String seasonTicketId = null;
+	private String seasonTicketId;
 	
 	
 
@@ -27,14 +27,37 @@ public class ExitController
 			ICarSensor is,
 			ICarSensor os, 
 			IExitUI ui) {
-		//TODO Implement constructor
+            this.exitGate = exitGate;
+            os.registerResponder(this);
+            is.registerResponder(this);
+            outsideSensor = os;
+            this.carpark = carpark;
+            ui.registerController(this);
+            this.ui = ui;
 	}
 
 
 
 	@Override
-	public void ticketInserted(String ticketStr) {
-		// TODO Auto-generated method stub
+	public void ticketInserted(String barcode) {
+		System.out.println("Ticket inserted to exit station, ticket number: " + barcode);
+                adhocTicket = carpark.getAdhocTicket(barcode);
+                if(carpark.isSeasonTicketInUse(barcode)){
+                    ui.display("Take Ticket");
+                }
+                    
+                if(adhocTicket != null){
+                    System.out.println("ticket in system");                
+                    if(adhocTicket.isPaid()){
+                        System.out.println("ticket is paid");
+                        carpark.recordAdhocTicketExit();
+                        ui.display("Take Ticket");
+                    }                        
+                }
+                else{
+                    ui.display("Go to office");
+                    System.out.println("ticket not in system");
+                }
 		
 	}
 
@@ -42,8 +65,7 @@ public class ExitController
 
 	@Override
 	public void ticketTaken() {
-		// TODO Auto-generated method stub
-		
+		exitGate.raise();		
 	}
 
 
