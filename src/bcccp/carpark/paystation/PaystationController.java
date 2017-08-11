@@ -19,9 +19,10 @@ public class PaystationController
 	
 
 	public PaystationController(ICarpark carpark, IPaystationUI ui) {
-		//TODO Implement constructor
+		
                 this.carpark = carpark;
                 this.ui = ui;
+		ui.display("Please insert ticket to begin payment");
 	}
 
 
@@ -67,7 +68,7 @@ public class PaystationController
 
 	@Override
 	public void ticketPaid() {
-		// TODO Auto-generated method stub
+		
             long currentTimeMillis = System.currentTimeMillis();
             charge = adhocTicket.getCharge();
             adhocTicket.pay(currentTimeMillis, charge);
@@ -84,7 +85,7 @@ public class PaystationController
             
             ui.display("Please insert ticket to begin payment");
             
-		// TODO Auto-generated method stub
+		
 		
 	}
 
