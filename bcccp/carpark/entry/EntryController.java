@@ -60,7 +60,7 @@ public class EntryController
                         //create new ticket 
                         adhocTicket = carpark.issueAdhocTicket();
                         entryType = "adhoc";
-                        
+                        adhocTicket.enter(entryTime);
                         //display the ticket details
                         //carpark.getAdhocTicket(seasonTicketId)
                         ui.printTicket(carpark.getName(), 

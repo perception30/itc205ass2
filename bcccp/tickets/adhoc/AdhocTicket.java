@@ -69,8 +69,8 @@ public class AdhocTicket implements IAdhocTicket {
         private long setEntryDateTime(){
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
-            long strDate = Long.parseLong(sdf.format(cal.getTime()));
-            return strDate;
+            entryDateTime = Long.parseLong(sdf.format(cal.getTime()));
+            return entryDateTime;
         }
 
 

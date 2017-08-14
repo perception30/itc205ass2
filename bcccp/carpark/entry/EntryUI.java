@@ -17,6 +17,9 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @SuppressWarnings("serial")
 public class EntryUI extends JFrame implements IEntryUI {
@@ -195,11 +198,12 @@ public class EntryUI extends JFrame implements IEntryUI {
 	
 	@Override
 	public void printTicket(String carparkId, int tNo, long datetime, String barcode) {
-		Date entryDate = new Date(datetime);
+		Calendar cal = Calendar.getInstance();
+                
 		StringBuilder builder = new StringBuilder();
 		builder.append("Carpark    : " + carparkId + "\n");
 		builder.append("Ticket No  : " + tNo + "\n");
-		builder.append("Entry Time : " + entryDate + "\n");
+		builder.append("Entry Time : " + cal.getTime() + "\n");
 		builder.append("Barcode    : " + barcode + "\n");
 		
 		ticketPrinterTextArea.setText(builder.toString());			
