@@ -46,7 +46,7 @@ public class ExitController implements ICarSensorResponder, IExitController {
                 else {
                     adhocTicket = carpark.getAdhocTicket(ticketStr);
                     if (adhocTicket != null) {
-                        if (adhocTicket.isCurrent() && adhocTicket.isPaid() && (System.currentTimeMillis() - adhocTicket.getPaidDateTime() <= 900000)) {
+                        if (adhocTicket.isCurrent() && adhocTicket.isPaid() && (System.currentTimeMillis() - adhocTicket.getPaidDateTime() <= 900000)) { //900,000ms = 15 minutes
                             ui.display("Take Ticket");
                             ticketValidated = true;
                             ui.beep();
