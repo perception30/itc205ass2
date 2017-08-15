@@ -33,27 +33,41 @@ public class ExitController implements ICarSensorResponder, IExitController {
 
         @Override
 	public void ticketInserted(String ticketStr) {
-            if (ticketStr.contains("S")) {
-                seasonTicketId = ticketStr;
-                if (carpark.isSeasonTicketInUse(seasonTicketId) && carpark.isSeasonTicketValid(seasonTicketId)) {
-                    ui.display("Take Ticket");
-                    ticketValidated = true;
-                    ui.beep();
+            if (!ticketStr.equals("") && insideSensor.carIsDetected()) {
+                if (ticketStr.contains("S")) {
+                    seasonTicketId = ticketStr;
+                    if (carpark.isSeasonTicketInUse(seasonTicketId) && carpark.isSeasonTicketValid(seasonTicketId)) {
+                        ui.display("Take Ticket");
+                        ticketValidated = true;
+                        ui.beep();
+                    }
+                    
                 }
                 else {
+                    adhocTicket = carpark.getAdhocTicket(ticketStr);
+                    if (adhocTicket != null) {
+                        if (adhocTicket.isCurrent() && adhocTicket.isPaid() && (System.currentTimeMillis() - adhocTicket.getPaidDateTime() <= 900000)) {
+                            ui.display("Take Ticket");
+                            ticketValidated = true;
+                            ui.beep();
+                        }
+                        if (System.currentTimeMillis() - adhocTicket.getPaidDateTime() > 900000) {
+                            ui.display("Please Wait For Attendant");
+                        }
+                    }
+                }
+                if (!ticketValidated) {
                     ui.display("Take Rejected Ticket");
                 }
             }
             else {
-                adhocTicket = carpark.getAdhocTicket(ticketStr);
-                if (adhocTicket.isCurrent() && adhocTicket.isPaid()) {
-                    ui.display("Take Ticket");
-                    ticketValidated = true;
-                    ui.beep();
+                if (ticketStr.equals("")) {
+                    ui.display("No Ticket Inserted");                
                 }
                 else {
-                    ui.display("Take Rejected Ticket");
+                    ui.display("No Car Detected");
                 }
+                
             }
         }
 
