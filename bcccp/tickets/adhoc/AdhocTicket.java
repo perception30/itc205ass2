@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import bcccp.carpark.Carpark;
+import bcccp.carpark.ICarpark;
 
 public class AdhocTicket implements IAdhocTicket {
 	
@@ -17,6 +19,8 @@ public class AdhocTicket implements IAdhocTicket {
         
         private boolean isCurrent;
         private boolean hasPaid;
+        private boolean hasExited;
+        
 
 	
 	
@@ -26,6 +30,9 @@ public class AdhocTicket implements IAdhocTicket {
             this.barcode = barcode;
             this.isCurrent = true; //is this doing anything??
             this.hasPaid = false;
+            this.hasExited = false;
+            this.exitDateTime = 0L;
+            
 	}
         
         public AdhocTicket(String carparkId, int ticketNo) {
@@ -128,6 +135,9 @@ public class AdhocTicket implements IAdhocTicket {
 	@Override
 	public void exit(long dateTime) {
 		// TODO Auto-generated method stub
+                this.hasExited = true;
+                this.exitDateTime = dateTime;
+               
 		
 	}
 
@@ -135,14 +145,14 @@ public class AdhocTicket implements IAdhocTicket {
 	@Override
 	public long getExitDateTime() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.exitDateTime;
 	}
 
 
 	@Override
 	public boolean hasExited() {
 		// TODO Auto-generated method stub
-		return false;
+		return this.hasExited;
 	}
 
 	
