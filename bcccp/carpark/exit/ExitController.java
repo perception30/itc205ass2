@@ -96,6 +96,7 @@ public class ExitController implements ICarSensorResponder, IExitController {
                 exitTime = System.currentTimeMillis();
                 if (adhocTicket != null) {
                     adhocTicket.exit(exitTime);
+                    carpark.recordAdhocTicketExit();
                     adhocTicket = null;
                 }
                 else {
