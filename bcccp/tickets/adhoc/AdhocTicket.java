@@ -1,5 +1,6 @@
 package bcccp.tickets.adhoc;
 
+import bcccp.carpark.Carpark;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -25,20 +26,25 @@ public class AdhocTicket implements IAdhocTicket {
 	public AdhocTicket(String carparkId, int ticketNo, String barcode) {
             this.carparkId = carparkId;
             this.ticketNo = ticketNo;
+            this.entryDateTime = setEntryDateTime();
             this.barcode = barcode;
             this.isCurrent = true; 
             this.hasPaid = false;
             this.exitDateTime = 0L;
+            this.charge = 0;
+            
             
 	}
         
         public AdhocTicket(String carparkId, int ticketNo) {
             this.carparkId = carparkId;
             this.ticketNo = ticketNo;
-            this.barcode = setEntryDateTime()+ticketNo+"A";
-            this.isCurrent = true; 
+            this.entryDateTime = setEntryDateTime();
+            this.barcode = getEntryDateTime()+ticketNo+"A";
+            this.isCurrent = false; 
             this.hasPaid = false;
             this.exitDateTime = 0L;
+            
 	}
 
 
@@ -62,7 +68,8 @@ public class AdhocTicket implements IAdhocTicket {
 
 	@Override
 	public void enter(long dateTime) {
-		// TODO Auto-generated method stub
+		this.entryDateTime = dateTime;
+                this.isCurrent = true;
 		
 	}
 
@@ -70,14 +77,16 @@ public class AdhocTicket implements IAdhocTicket {
 	@Override
 	public long getEntryDateTime() {
             
-            return entryDateTime;
+            return this.entryDateTime;
 	}
         
         private long setEntryDateTime(){
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
-            entryDateTime = Long.parseLong(sdf.format(cal.getTime()));
-            return entryDateTime;
+            //Calendar cal = Calendar.getInstance();
+            //SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
+            //entryDateTime = Long.parseLong(sdf.format(cal.getTime()));
+            //return entryDateTime;
+            
+            return this.entryDateTime = System.currentTimeMillis();
         }
 
 
@@ -90,19 +99,20 @@ public class AdhocTicket implements IAdhocTicket {
 	@Override
 	public void pay(long dateTime, float charge) {
 		// TODO Auto-generated method stub
+                this.paidDateTime = dateTime;
+                this.charge = charge;
+                this.hasPaid = true;
 		
 	}
         @Override
         public void pay() {
-		this.hasPaid = true;
-		
+		this.hasPaid = true;		
 	}
 
 
 	@Override
 	public long getPaidDateTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.paidDateTime;
 	}
 
 
@@ -115,27 +125,25 @@ public class AdhocTicket implements IAdhocTicket {
 
 	@Override
 	public float getCharge() {
-		// TODO Auto-generated method stub
-                float shortStayCharge = 5;
+            float shortStayCharge = 5;
                 float longStayCharge = 5000;
-                if(setEntryDateTime() - this.getEntryDateTime() < 1000){
-                    System.out.println(setEntryDateTime() + " - " + this.getEntryDateTime() +" = " + (setEntryDateTime() - this.getEntryDateTime()));
+                if(System.currentTimeMillis()- entryDateTime < 1000){
+                    System.out.println(System.currentTimeMillis() + " - " + entryDateTime+" = " + (System.currentTimeMillis() - entryDateTime));
                     System.out.println("charged custmer LONG stay amount");
                     return longStayCharge;
                 }
                 else{
-                    System.out.println(setEntryDateTime() + " - " + this.getEntryDateTime() +" = " + (setEntryDateTime() - this.getEntryDateTime()));
+                    System.out.println(System.currentTimeMillis() + " - " + entryDateTime+" = " + (System.currentTimeMillis() - entryDateTime));
                     System.out.println("charged custmer SHORT stay amount");
                     return shortStayCharge;
                 }
-	
+            
 	}
 
 
 	@Override
 	public void exit(long dateTime) {
-		// TODO Auto-generated method stub
-                this.isCurrent = false;
+		this.isCurrent = false;
                 this.exitDateTime = dateTime;
                
 		
@@ -144,14 +152,12 @@ public class AdhocTicket implements IAdhocTicket {
 
 	@Override
 	public long getExitDateTime() {
-		// TODO Auto-generated method stub
 		return this.exitDateTime;
 	}
 
 
 	@Override
 	public boolean hasExited() {
-		// TODO Auto-generated method stub
 		return !this.isCurrent();
 	}
 

@@ -18,6 +18,7 @@ public class Carpark implements ICarpark {
 	private IAdhocTicketDAO adhocTicketDAO;
 	private ISeasonTicketDAO seasonTicketDAO;
         
+        
 	
 	
 	
@@ -37,8 +38,7 @@ public class Carpark implements ICarpark {
 	@Override
 	public void register(ICarparkObserver observer) {
 		// TODO Auto-generated method stub
-                System.out.println("BOOM!");
-		observers.add(observer);
+                observers.add(observer);
 	}
 
 
@@ -114,8 +114,18 @@ public class Carpark implements ICarpark {
 
 	@Override
 	public float calculateAddHocTicketCharge(long entryDateTime) {
-		// TODO Auto-generated method stub
-		return 0;
+		float shortStayCharge = 5;
+                float longStayCharge = 5000;
+                if(System.currentTimeMillis()- entryDateTime < 1000){
+                    System.out.println(System.currentTimeMillis() + " - " + entryDateTime+" = " + (System.currentTimeMillis() - entryDateTime));
+                    System.out.println("charged custmer LONG stay amount");
+                    return longStayCharge;
+                }
+                else{
+                    System.out.println(System.currentTimeMillis() + " - " + entryDateTime+" = " + (System.currentTimeMillis() - entryDateTime));
+                    System.out.println("charged custmer SHORT stay amount");
+                    return shortStayCharge;
+                }
 	}
 
 
@@ -123,7 +133,13 @@ public class Carpark implements ICarpark {
 	@Override
 	public void recordAdhocTicketExit() {
 		// TODO Auto-generated method stub
-		numberOfCarsParked--;
+		if(isFull()){
+                    numberOfCarsParked--;
+                    
+                    
+                }
+                else
+                numberOfCarsParked--;
                
 	}
 

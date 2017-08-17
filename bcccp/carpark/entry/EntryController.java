@@ -172,6 +172,7 @@ public class EntryController
                 }
                 if ((detectorId == "Entry Inside Sensor") && !detected){
                 //car goes through gate
+                
                     if(entryGate.isRaised()){
                         ui.display(""); //clear thank you message from display
                         entryGate.lower();
