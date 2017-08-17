@@ -44,6 +44,7 @@ public class AdhocTicket implements IAdhocTicket {
             this.isCurrent = false; 
             this.hasPaid = false;
             this.exitDateTime = 0L;
+	    this.charge = 0;	
             
 	}
 
