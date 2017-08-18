@@ -43,12 +43,12 @@ public class Main {
 					
 					Carpark carpark = new Carpark("Bathurst Chase", 3, adhocTicketDAO, seasonTicketDAO);
 					
-					ISeasonTicket t1 = new SeasonTicket("S1111","Bathurst Chase", 0L, 0L);
-					ISeasonTicket t2 = new SeasonTicket("S2222","Bathurst Chase", 0L, 0L);
-					
+					ISeasonTicket t1 = new SeasonTicket("S1111","Bathurst Chase", 1501641241962L, 1601641241962L);
+					ISeasonTicket t2 = new SeasonTicket("S2222","Bathurst Chase", 1501641241962L, 1601641241962L);
+                                       
 					carpark.registerSeasonTicket(t1);
 					carpark.registerSeasonTicket(t2);
-					
+                                        
 					@SuppressWarnings("unused")
 					EntryController entryController = 
 							new EntryController(carpark, egate, eos, eis, eui);
