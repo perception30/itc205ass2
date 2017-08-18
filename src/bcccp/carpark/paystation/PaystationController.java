@@ -22,6 +22,7 @@ public class PaystationController
 		
                 this.carpark = carpark;
                 this.ui = ui;
+		ui.registerController(this);
 		ui.display("Please insert ticket to begin payment");
 	}
 
@@ -56,7 +57,9 @@ public class PaystationController
                      return;
                     }
                 }
+		else {
                 ui.display("ticket is not current");
+		}
             }
             else 
             {
