@@ -5,7 +5,7 @@ public class AdhocTicketDAO  implements IAdhocTicketDAO  {
 
 	private IAdhocTicketFactory factory;
 	private int currentTicketNo;
-        private List<IAdhocTicket> ticketList;
+        private ArrayList<IAdhocTicket> ticketList;
 
 	
 	
