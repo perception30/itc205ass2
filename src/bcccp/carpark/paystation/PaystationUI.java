@@ -53,6 +53,7 @@ public class PaystationUI extends JFrame implements IPaystationUI {
 	 * Create the frame.
 	 */
 	public PaystationUI(int x, int y) {
+		ui.registerController(this);
 		setTitle("PayStation UI");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(x, y, 350, 710);
