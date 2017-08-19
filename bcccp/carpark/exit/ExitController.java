@@ -55,6 +55,7 @@ public class ExitController implements ICarSensorResponder, IExitController {
                             ui.display("Please Wait For Attendant");
                         }
                     }
+                
                 }
                 if (!ticketValidated) {
                     ui.display("Take Rejected Ticket");

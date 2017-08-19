@@ -28,8 +28,13 @@ public class AdhocTicket implements IAdhocTicket {
             this.ticketNo = createTicketNumber();
             this.barcode = createBarcode(ticketNo);
         }
-        
-        
+
+        public AdhocTicket(String carparkId, int ticketNo) {
+            this.carparkId = carparkId;
+            this.ticketNo = ticketNo;
+            this.barcode = createBarcode(this.ticketNo);
+	}
+
         public String createBarcode(int ticketNumber){
             Date date = new Date();
             String oldstring = date.toString();
@@ -68,6 +73,7 @@ public class AdhocTicket implements IAdhocTicket {
 	@Override
 	public void enter(long dateTime) {
 		// TODO Auto-generated method stub
+            this.entryDateTime = dateTime;
 		
 	}
 
@@ -82,41 +88,47 @@ public class AdhocTicket implements IAdhocTicket {
 	@Override
 	public boolean isCurrent() {
 		// TODO Auto-generated method stub
-		return false;
+            if (this.entryDateTime != 0){
+            return this.exitDateTime > 0;
+            }
+            return false;
 	}
 
 
 	@Override
 	public void pay(long dateTime, float charge) {
-		// TODO Auto-generated method stub
+            this.charge = charge;
+            paidDateTime = System.currentTimeMillis();
+            
 		
 	}
 
 
 	@Override
 	public long getPaidDateTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return paidDateTime;
 	}
 
 
 	@Override
 	public boolean isPaid() {
-		// TODO Auto-generated method stub
-		return false;
+		 
+                    return paidDateTime > 0;
+               
 	}
 
 
 	@Override
 	public float getCharge() {
 		// TODO Auto-generated method stub
-		return 0;
+		return charge;
 	}
 
 
 	@Override
 	public void exit(long dateTime) {
 		// TODO Auto-generated method stub
+            this.exitDateTime = dateTime;
 		
 	}
 
@@ -124,13 +136,17 @@ public class AdhocTicket implements IAdhocTicket {
 	@Override
 	public long getExitDateTime() {
 		// TODO Auto-generated method stub
-		return 0;
+		return exitDateTime;
 	}
 
 
 	@Override
 	public boolean hasExited() {
 		// TODO Auto-generated method stub
+                if (exitDateTime > 0)
+                {
+                    return true;
+                }
 		return false;
 	}
 
