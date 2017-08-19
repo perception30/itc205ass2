@@ -3,85 +3,75 @@ package bcccp.tickets.season;
 import bcccp.tickets.season.ISeasonTicket;
 import bcccp.tickets.season.IUsageRecordFactory;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SeasonTicketDAO implements ISeasonTicketDAO {
 
 	private IUsageRecordFactory factory;
-        private ISeasonTicket seasonTicket; //had to add this...
-        private List<ISeasonTicket> registeredTicketsList = new ArrayList <ISeasonTicket>();
-	
+  private ISeasonTicket seasonTicket;
+	private ArrayList<ISeasonTicket> registeredTicketsList = new ArrayList <ISeasonTicket>();
 	
 	public SeasonTicketDAO(IUsageRecordFactory factory) {
-		//TOD Implement constructor
-                this.factory = factory;
+            this.factory = factory;
 	}
 
 
 
 	@Override
 	public void registerTicket(ISeasonTicket ticket) {
-		// TODO Auto-generated method stub
-               registeredTicketsList.add(ticket);
+
+            registeredTicketsList.add(ticket);
+
 	}
 
 
 
 	@Override
 	public void deregisterTicket(ISeasonTicket ticket) {
-		// TODO Auto-generated method stub
-		
+            for (ISeasonTicket st : registeredTicketsList) {
+                if (st.getId().equals(ticket.getId())) {
+                    registeredTicketsList.remove(registeredTicketsList.indexOf(st));
+                }
+            }
 	}
 
 
 
 	@Override
 	public int getNumberOfTickets() {
-		// TODO Auto-generated method stub
-		return 0;
+            
+		return registeredTicketsList.size();
 	}
 
 
 
 	@Override
 	public ISeasonTicket findTicketById(String ticketId) {
-		// TODO Auto-generated method stub
-                
-                for(int i = 0; i<registeredTicketsList.size(); i++){
-                    if((registeredTicketsList.get(i) != null) && (registeredTicketsList.get(i).getId().matches(ticketId))){
-                        return registeredTicketsList.get(i);
-                    }
-                    else{
-                        System.out.println("Ticket not in system");
-
-
-                    }
+            for (ISeasonTicket st : registeredTicketsList) {
+                if (st.getId().equals(ticketId)) {
+                    return st;
                 }
-                               
-                return null;
+            }
+            return null;
 	}
 
 
 
 	@Override
 	public void recordTicketEntry(String ticketId) {
-		// TODO Auto-generated method stub
-                registeredTicketsList.add(findTicketById(ticketId));
-	}
+
+            factory.make(ticketId, System.currentTimeMillis());
+  }	
+
 
 
 
 	@Override
 	public void recordTicketExit(String ticketId) {
-		// TODO Auto-generated method stub
-		registeredTicketsList.remove(findTicketById(ticketId));
+
+            seasonTicket = findTicketById(ticketId);
+            seasonTicket.endUsage(System.currentTimeMillis());
+            registeredTicketsList.remove(findTicketById(ticketId));
+
 	}
         
-        public boolean isSeasonTicketInCarpark(String ticketId){
-            
-            return true;
-        }
-	
-	
-	
 }

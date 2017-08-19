@@ -46,13 +46,7 @@ public class ExitController implements ICarSensorResponder, IExitController {
                 else {
                     adhocTicket = carpark.getAdhocTicket(ticketStr);
                     if (adhocTicket != null) {
-                        System.out.println("inside the loop, need next 3 to be true");
-                        System.out.println(adhocTicket.isCurrent());
-                        System.out.println(adhocTicket.isPaid());
-                        System.out.println((System.currentTimeMillis() - adhocTicket.getPaidDateTime() <= 900000));
-                        System.out.println("this is the PaidDateTime " + adhocTicket.getPaidDateTime());
-                        if (adhocTicket.isCurrent() && adhocTicket.isPaid() 
-                                && (System.currentTimeMillis() - adhocTicket.getPaidDateTime() <= 900000)) { //900,000ms = 15 minutes
+                        if (adhocTicket.isCurrent() && adhocTicket.isPaid() && (System.currentTimeMillis() - adhocTicket.getPaidDateTime() <= 900000)) { //900,000ms = 15 minutes
                             ui.display("Take Ticket");
                             ticketValidated = true;
                             ui.beep();
@@ -61,6 +55,7 @@ public class ExitController implements ICarSensorResponder, IExitController {
                             ui.display("Please Wait For Attendant");
                         }
                     }
+                
                 }
                 if (!ticketValidated) {
                     ui.display("Take Rejected Ticket");
@@ -102,6 +97,7 @@ public class ExitController implements ICarSensorResponder, IExitController {
                 exitTime = System.currentTimeMillis();
                 if (adhocTicket != null) {
                     adhocTicket.exit(exitTime);
+                    carpark.recordAdhocTicketExit();
                     adhocTicket = null;
                 }
                 else {
