@@ -17,6 +17,9 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @SuppressWarnings("serial")
 public class EntryUI extends JFrame implements IEntryUI {
@@ -33,7 +36,6 @@ public class EntryUI extends JFrame implements IEntryUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-            
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -52,8 +54,7 @@ public class EntryUI extends JFrame implements IEntryUI {
 	 * Create the frame.
 	 */
 	public EntryUI(int x, int y) {
-        
-                setTitle("Entry Pillar UI");
+		setTitle("Entry Pillar UI");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(x, y, 340, 710);
 		contentPane = new JPanel();
@@ -168,14 +169,15 @@ public class EntryUI extends JFrame implements IEntryUI {
 	
 	private void pushButton() {
 		log("pushButton : calling button pushed");
-                controller.buttonPushed();	
+		controller.buttonPushed();	
 	}
 
 	
 	
 	private void insertTicket() {
 		String ticketStr = seasonTicketTextField.getText();
-		controller.ticketInserted(ticketStr);	
+                System.out.println("the season ticket number is " + ticketStr);
+                controller.ticketInserted(ticketStr);	
 	}
 	
 	
@@ -196,11 +198,12 @@ public class EntryUI extends JFrame implements IEntryUI {
 	
 	@Override
 	public void printTicket(String carparkId, int tNo, long datetime, String barcode) {
-		Date entryDate = new Date(datetime);
+		Calendar cal = Calendar.getInstance();
+                
 		StringBuilder builder = new StringBuilder();
 		builder.append("Carpark    : " + carparkId + "\n");
 		builder.append("Ticket No  : " + tNo + "\n");
-		builder.append("Entry Time : " + entryDate + "\n");
+		builder.append("Entry Time : " + cal.getTime() + "\n");
 		builder.append("Barcode    : " + barcode + "\n");
 		
 		ticketPrinterTextArea.setText(builder.toString());			

@@ -28,12 +28,13 @@ public class AdhocTicket implements IAdhocTicket {
             this.ticketNo = createTicketNumber();
             this.barcode = createBarcode(ticketNo);
         }
+
         public AdhocTicket(String carparkId, int ticketNo) {
             this.carparkId = carparkId;
             this.ticketNo = ticketNo;
             this.barcode = createBarcode(this.ticketNo);
 	}
-        
+
         public String createBarcode(int ticketNumber){
             Date date = new Date();
             String oldstring = date.toString();

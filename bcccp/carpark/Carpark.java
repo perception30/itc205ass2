@@ -18,32 +18,27 @@ public class Carpark implements ICarpark {
 	private IAdhocTicketDAO adhocTicketDAO;
 	private ISeasonTicketDAO seasonTicketDAO;
         
-
-        private ICarpark controller;
-
+        
 	
 	
 	
 	public Carpark(String name, int capacity, 
 			IAdhocTicketDAO adhocTicketDAO, 
 			ISeasonTicketDAO seasonTicketDAO) {
-
+		//TODO Implement constructor
                 this.carparkId = name;
                 this.capacity = capacity;
                 this.adhocTicketDAO = adhocTicketDAO;
                 this.seasonTicketDAO = seasonTicketDAO;
                 
-
 	}
 
 
 
 	@Override
 	public void register(ICarparkObserver observer) {
-
-                System.out.println("BOOM!");
-		observers.add(observer);
-
+		// TODO Auto-generated method stub
+                observers.add(observer);
 	}
 
 
@@ -58,9 +53,7 @@ public class Carpark implements ICarpark {
 
 	@Override
 	public String getName() {
-
-		return carparkId;
-
+		return this.carparkId;
 	}
 
 
@@ -102,9 +95,8 @@ public class Carpark implements ICarpark {
 
 	@Override
 	public void recordAdhocTicketEntry() {
-
-            numberOfCarsParked++;
-
+		// TODO Auto-generated method stub
+                numberOfCarsParked++;
 	}
 
 
@@ -122,27 +114,33 @@ public class Carpark implements ICarpark {
 
 	@Override
 	public float calculateAddHocTicketCharge(long entryDateTime) {
-		// TODO Auto-generated method stub
-            float charge;
-            if (entryDateTime % 24 > 12){
-                //for calculating night rate
-                charge = System.currentTimeMillis() - entryDateTime * 1;
-                
-            } else
-            {
-                charge = System.currentTimeMillis() - entryDateTime * 1;
-            }
-		return charge;
+		float shortStayCharge = 5;
+                float longStayCharge = 5000;
+                if(System.currentTimeMillis()- entryDateTime < 1000){
+                    System.out.println(System.currentTimeMillis() + " - " + entryDateTime+" = " + (System.currentTimeMillis() - entryDateTime));
+                    System.out.println("charged custmer LONG stay amount");
+                    return longStayCharge;
+                }
+                else{
+                    System.out.println(System.currentTimeMillis() + " - " + entryDateTime+" = " + (System.currentTimeMillis() - entryDateTime));
+                    System.out.println("charged custmer SHORT stay amount");
+                    return shortStayCharge;
+                }
 	}
 
 
 
 	@Override
 	public void recordAdhocTicketExit() {
-
-		numberOfCarsParked--;
-		
-
+		// TODO Auto-generated method stub
+		if(isFull()){
+                    numberOfCarsParked--;
+                    
+                    
+                }
+                else
+                numberOfCarsParked--;
+               
 	}
 
 
